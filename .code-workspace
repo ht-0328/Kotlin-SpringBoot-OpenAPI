@@ -1,0 +1,15 @@
+{
+  "folders": [
+    {
+      "name": "workspace",
+      "path": "."
+    },
+    {
+      "name": "kotlin-spring-boot-app",
+      "path": "projects/kotlin-spring-boot-app"
+    }
+  ],
+  "settings": {
+    "java.configuration.updateBuildConfiguration": "interactive"
+  },
+}
