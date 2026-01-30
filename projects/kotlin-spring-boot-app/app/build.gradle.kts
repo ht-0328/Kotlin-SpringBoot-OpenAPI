@@ -23,6 +23,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter:3.4.3")
     // HTTP リクエストのルーティングや REST API を実装するためのライブラリ
     implementation("org.springframework.boot:spring-boot-starter-web:3.4.3")
+    // OpenAPI (Swagger) ドキュメント生成用ライブラリ
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
     // Kotlin の JUnit 5 統合テストライブラリ
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.1")
     // Spring Boot のテスト用ライブラリ（これが必要！）
