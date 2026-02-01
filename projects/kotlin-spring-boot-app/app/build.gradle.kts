@@ -11,6 +11,8 @@ plugins {
     kotlin("plugin.spring") version "2.1.10"
     // CLI アプリケーションを作成するためのプラグイン
     application
+    // OpenAPI Generator Plugin
+    id("org.openapi.generator") version "7.11.0"
 }
 
 repositories {
@@ -23,6 +25,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter:3.4.3")
     // HTTP リクエストのルーティングや REST API を実装するためのライブラリ
     implementation("org.springframework.boot:spring-boot-starter-web:3.4.3")
+    // バリデーション用ライブラリ (OpenAPI Generatorで生成されたコードが使用する)
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     // OpenAPI (Swagger) ドキュメント生成用ライブラリ
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
     // Kotlin の JUnit 5 統合テストライブラリ
@@ -59,6 +63,34 @@ spotless {
         ktlint("1.6.0")
         target(
             // 通常の Kotlin ファイル
-            "**/*.kt",       )
+            "**/*.kt",
+        )
+        targetExclude("**/build/**")
     }
+}
+
+tasks.register("generateOpenApiServer", org.openapitools.generator.gradle.plugin.tasks.GenerateTask::class) {
+    generatorName.set("kotlin-spring")
+    inputSpec.set("$projectDir/src/main/resources/openapi/ping.yaml")
+    outputDir.set("$buildDir/generated/openapi")
+    apiPackage.set("com.app.generated.api")
+    modelPackage.set("com.app.generated.model")
+    configOptions.set(mapOf(
+        "interfaceOnly" to "true",
+        "useSpringBoot3" to "true",
+        "dateLibrary" to "java8",
+        "useTags" to "true"
+    ))
+}
+
+kotlin {
+    sourceSets {
+        main {
+            kotlin.srcDir("$buildDir/generated/openapi/src/main/kotlin")
+        }
+    }
+}
+
+tasks.named("compileKotlin") {
+    dependsOn("generateOpenApiServer")
 }
