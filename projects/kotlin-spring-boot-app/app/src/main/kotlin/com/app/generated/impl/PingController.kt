@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class PingController : PingApi {
-    override fun ping(): ResponseEntity<PingResponse> {
-        return ResponseEntity.ok(
+    override fun ping(): ResponseEntity<PingResponse> =
+        ResponseEntity.ok(
             PingResponse(
                 message = "pong",
-                appVersion = "0.1.0"
-            )
+                appVersion = "0.1.0",
+            ),
         )
-    }
 }
