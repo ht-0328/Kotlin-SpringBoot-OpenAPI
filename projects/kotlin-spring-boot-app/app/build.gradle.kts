@@ -87,8 +87,8 @@ tasks.register("generateOpenApiEcho", org.openapitools.generator.gradle.plugin.t
     generatorName.set("kotlin-spring")
     inputSpec.set("$projectDir/src/main/resources/openapi/echo.yaml")
     outputDir.set("$buildDir/generated/openapi-echo")
-    apiPackage.set("com.app.generated.api")
-    modelPackage.set("com.app.generated.model")
+    apiPackage.set("com.app.generated.echo.api")
+    modelPackage.set("com.app.generated.echo.model")
     configOptions.set(mapOf(
         "interfaceOnly" to "true",
         "useSpringBoot3" to "true",
