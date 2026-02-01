@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class EchoController : EchoApi {
-    override fun echo(text: String): ResponseEntity<EchoResponse> {
-        return ResponseEntity.ok(
+    override fun echo(text: String): ResponseEntity<EchoResponse> =
+        ResponseEntity.ok(
             EchoResponse(
-                echoedText = text
-            )
+                echoedText = text,
+            ),
         )
-    }
 }
