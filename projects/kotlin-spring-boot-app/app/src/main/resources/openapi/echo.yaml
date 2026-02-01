@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: Echo API
+  version: 1.0.0
+paths:
+  /api/echo:
+    get:
+      summary: Echo the input text
+      operationId: echo
+      tags:
+        - Echo
+      parameters:
+        - name: text
+          in: query
+          description: Text to echo
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EchoResponse'
+components:
+  schemas:
+    EchoResponse:
+      type: object
+      required:
+        - echoedText
+      properties:
+        echoedText:
+          type: string
+          example: "hello"
