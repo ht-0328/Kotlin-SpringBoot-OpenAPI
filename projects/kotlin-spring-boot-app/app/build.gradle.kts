@@ -83,9 +83,11 @@ tasks.register("generateOpenApiServer", org.openapitools.generator.gradle.plugin
     ))
 }
 
-sourceSets {
-    main {
-        java.srcDir("$buildDir/generated/openapi/src/main/kotlin")
+kotlin {
+    sourceSets {
+        main {
+            kotlin.srcDir("$buildDir/generated/openapi/src/main/kotlin")
+        }
     }
 }
 
