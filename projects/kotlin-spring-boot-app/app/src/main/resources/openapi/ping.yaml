@@ -1,0 +1,32 @@
+openapi: 3.0.0
+info:
+  title: Ping API
+  version: 1.0.0
+paths:
+  /api/ping:
+    get:
+      summary: Ping the server
+      operationId: ping
+      tags:
+        - Ping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PingResponse'
+components:
+  schemas:
+    PingResponse:
+      type: object
+      required:
+        - message
+        - appVersion
+      properties:
+        message:
+          type: string
+          example: "pong"
+        appVersion:
+          type: string
+          example: "0.1.0"
