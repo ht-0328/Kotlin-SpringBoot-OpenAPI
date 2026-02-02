@@ -42,3 +42,18 @@ OpenAPI Generator の自動生成が動くか確認用のエンドポイント�
 ```bash
 ./gradlew :app:bootRun
 ```
+
+## GitHub Pages へのデプロイ
+本リポジトリでは GitHub Actions を利用して、Swagger UI を GitHub Pages にデプロイできます。
+
+### 設定
+デプロイを行う前に、リポジトリの **Settings > Pages > Build and deployment > Source** が **GitHub Actions** に設定されていることを確認してください。
+
+### 手順
+1. GitHub のリポジトリページで **Actions** タブを開きます。
+2. 左側のワークフロー一覧から **Deploy Swagger UI to GitHub Pages** を選択します。
+3. **Run workflow** ボタンをクリックして実行します。
+4. 実行が完了すると、以下の URL で Swagger UI が確認できます。
+   - `https://ht-0328.github.io/Kotlin-SpringBoot-OpenAPI/`
+
+※ PR 作成時もワークフローが起動しますが、ビルドの確認のみ行われ、GitHub Pages へのデプロイはスキップされます。
