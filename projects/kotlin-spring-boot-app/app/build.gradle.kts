@@ -71,7 +71,7 @@ spotless {
 
 tasks.register("generateOpenApiServer", org.openapitools.generator.gradle.plugin.tasks.GenerateTask::class) {
     generatorName.set("kotlin-spring")
-    inputSpec.set("$projectDir/src/main/resources/openapi/ping.yaml")
+    inputSpec.set("$projectDir/src/main/resources/openapi/openapi.yml")
     outputDir.set("$buildDir/generated/openapi")
     apiPackage.set("com.app.generated.api")
     modelPackage.set("com.app.generated.model")
@@ -83,35 +83,14 @@ tasks.register("generateOpenApiServer", org.openapitools.generator.gradle.plugin
     ))
 }
 
-tasks.register("generateOpenApiEcho", org.openapitools.generator.gradle.plugin.tasks.GenerateTask::class) {
-    generatorName.set("kotlin-spring")
-    inputSpec.set("$projectDir/src/main/resources/openapi/echo.yaml")
-    outputDir.set("$buildDir/generated/openapi-echo")
-    apiPackage.set("com.app.generated.echo.api")
-    modelPackage.set("com.app.generated.echo.model")
-    configOptions.set(mapOf(
-        "interfaceOnly" to "true",
-        "useSpringBoot3" to "true",
-        "dateLibrary" to "java8",
-        "useTags" to "true"
-    ))
-    globalProperties.set(mapOf(
-        "apis" to "",
-        "models" to "",
-        "supportingFiles" to "false"
-    ))
-}
-
 kotlin {
     sourceSets {
         main {
             kotlin.srcDir("$buildDir/generated/openapi/src/main/kotlin")
-            kotlin.srcDir("$buildDir/generated/openapi-echo/src/main/kotlin")
         }
     }
 }
 
 tasks.named("compileKotlin") {
     dependsOn("generateOpenApiServer")
-    dependsOn("generateOpenApiEcho")
 }

@@ -1,0 +1,52 @@
+Calculating task graph as no cached configuration is available for tasks: :app:bootRun
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:generateOpenApiServer UP-TO-DATE
+> Task :app:processResources UP-TO-DATE
+> Task :app:compileKotlin UP-TO-DATE
+> Task :app:compileJava NO-SOURCE
+> Task :app:classes UP-TO-DATE
+> Task :app:resolveMainClassName
+
+> Task :app:bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.3)
+
+2026-02-01T18:49:06.171Z  INFO 2888 --- [           main] com.app.AppKt                            : Starting AppKt using Java 17.0.17 with PID 2888 (/app/projects/kotlin-spring-boot-app/app/build/classes/kotlin/main started by jules in /app/projects/kotlin-spring-boot-app/app)
+2026-02-01T18:49:06.174Z  INFO 2888 --- [           main] com.app.AppKt                            : No active profile set, falling back to 1 default profile: "default"
+2026-02-01T18:49:07.448Z  INFO 2888 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-01T18:49:07.486Z  INFO 2888 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-01T18:49:07.487Z  INFO 2888 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2026-02-01T18:49:07.613Z  INFO 2888 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-01T18:49:07.616Z  INFO 2888 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1379 ms
+2026-02-01T18:49:08.542Z  INFO 2888 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-02-01T18:49:08.559Z  INFO 2888 --- [           main] com.app.AppKt                            : Started AppKt in 2.816 seconds (process running for 3.137)
+2026-02-01T18:49:16.268Z  INFO 2888 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-01T18:49:16.268Z  INFO 2888 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-01T18:49:16.270Z  INFO 2888 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-02-01T18:49:23.144Z  INFO 2888 --- [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-01T18:49:23.152Z  INFO 2888 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+
+> Task :app:bootRun FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:bootRun'.
+> Process 'command '/home/jules/.gradle/jdks/eclipse_adoptium-17-amd64-linux.2/bin/java'' finished with non-zero exit value 143
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 20s
+5 actionable tasks: 2 executed, 3 up-to-date
+Configuration cache entry stored.
