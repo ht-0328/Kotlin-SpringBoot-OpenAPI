@@ -1,0 +1,101 @@
+name: Deploy Swagger UI to GitHub Pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Start Spring Boot and Fetch OpenAPI JSON
+        run: |
+          cd projects/kotlin-spring-boot-app
+          chmod +x gradlew
+
+          echo "Starting Spring Boot app..."
+          ./gradlew :app:bootRun --no-daemon &
+          PID=$!
+
+          echo "Waiting for application to start..."
+          # Retry for up to 3 minutes (18 * 10s)
+          fetched=false
+          for i in {1..18}; do
+            if curl -s -f http://localhost:8080/v3/api-docs > ../../openapi.json; then
+              echo "OpenAPI definition fetched successfully."
+              fetched=true
+              break
+            fi
+            echo "Waiting for service... ($i/18)"
+            sleep 10
+          done
+
+          # Kill the process group
+          kill $PID || true
+          pkill -f java || true
+
+          if [ "$fetched" = false ]; then
+            echo "Failed to fetch OpenAPI definition."
+            exit 1
+          fi
+
+      - name: Setup Swagger UI
+        run: |
+          mkdir static-site
+          mv openapi.json static-site/
+
+          cat <<EOF > static-site/index.html
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>SwaggerUI</title>
+            <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui.css" />
+          </head>
+          <body>
+            <div id="swagger-ui"></div>
+            <script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js" crossorigin></script>
+            <script>
+              window.onload = () => {
+                window.ui = SwaggerUIBundle({
+                  url: './openapi.json',
+                  dom_id: '#swagger-ui',
+                });
+              };
+            </script>
+          </body>
+          </html>
+          EOF
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: static-site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

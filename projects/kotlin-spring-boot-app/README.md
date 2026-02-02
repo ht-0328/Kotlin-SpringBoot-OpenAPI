@@ -42,3 +42,12 @@ OpenAPI Generator の自動生成が動くか確認用のエンドポイント�
 ```bash
 ./gradlew :app:bootRun
 ```
+
+## GitHub Pages へのデプロイ
+本リポジトリでは GitHub Actions を利用して、Swagger UI を GitHub Pages にデプロイできます。
+
+1. GitHub のリポジトリページで **Actions** タブを開きます。
+2. 左側のワークフロー一覧から **Deploy Swagger UI to GitHub Pages** を選択します。
+3. **Run workflow** ボタンをクリックして実行します。
+4. 実行が完了すると、以下の URL で Swagger UI が確認できます。
+   - `https://<ユーザ名>.github.io/<リポジトリ名>/`
