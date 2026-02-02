@@ -2,6 +2,7 @@ name: Deploy Swagger UI to GitHub Pages
 
 on:
   workflow_dispatch:
+  pull_request:
 
 permissions:
   contents: read
