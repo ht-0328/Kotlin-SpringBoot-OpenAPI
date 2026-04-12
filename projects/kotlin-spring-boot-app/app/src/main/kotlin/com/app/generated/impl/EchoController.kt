@@ -1,15 +1,15 @@
 package com.app.generated.impl
 
 import com.app.generated.api.EchoApi
-import com.app.generated.model.Echo200Response
+import com.app.generated.model.EchoResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class EchoController : EchoApi {
-    override fun echo(text: String): ResponseEntity<Echo200Response> =
+    override fun echo(text: String): ResponseEntity<EchoResponse> =
         ResponseEntity.ok(
-            Echo200Response(
+            EchoResponse(
                 echoedText = text,
             ),
         )

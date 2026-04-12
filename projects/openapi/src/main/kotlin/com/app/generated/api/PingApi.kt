@@ -5,7 +5,7 @@
 */
 package com.app.generated.api
 
-import com.app.generated.model.Ping200Response
+import com.app.generated.model.PingResponse
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
 import io.swagger.v3.oas.annotations.media.*
@@ -44,7 +44,7 @@ interface PingApi {
         operationId = "ping",
         description = """""",
         responses = [
-            ApiResponse(responseCode = "200", description = "OK", content = [Content(schema = Schema(implementation = Ping200Response::class))])
+            ApiResponse(responseCode = "200", description = "OK", content = [Content(schema = Schema(implementation = PingResponse::class))])
         ]
     )
     @RequestMapping(
@@ -52,7 +52,7 @@ interface PingApi {
             value = ["/api/ping"],
             produces = ["application/json"]
     )
-    fun ping(): ResponseEntity<Ping200Response> {
+    fun ping(): ResponseEntity<PingResponse> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

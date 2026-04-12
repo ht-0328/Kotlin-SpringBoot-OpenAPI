@@ -11,8 +11,6 @@ src/main/kotlin/com/app/generated/api/EchoApi.kt
 src/main/kotlin/com/app/generated/api/Exceptions.kt
 src/main/kotlin/com/app/generated/api/FilesApi.kt
 src/main/kotlin/com/app/generated/api/PingApi.kt
-src/main/kotlin/com/app/generated/model/Echo200Response.kt
 src/main/kotlin/com/app/generated/model/EchoResponse.kt
-src/main/kotlin/com/app/generated/model/Ping200Response.kt
 src/main/kotlin/com/app/generated/model/PingResponse.kt
 src/main/kotlin/org/openapitools/SpringDocConfiguration.kt

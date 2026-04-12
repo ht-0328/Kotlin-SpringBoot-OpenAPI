@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.0.0
 info:
   title: Main API
   version: 1.0.0
@@ -8,25 +8,7 @@ paths:
   /api/echo:
     $ref: './echo.yaml#/paths/~1api~1echo'
   /files/{fileId}/download:
-    get:
-      summary: Download file
-      operationId: downloadFile
-      tags:
-        - Files
-      parameters:
-        - name: fileId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/octet-stream:
-              schema:
-                type: string
-                format: stream
+    $ref: './files.yaml#/paths/~1files~1{fileId}~1download'
 components:
   schemas:
     PingResponse:

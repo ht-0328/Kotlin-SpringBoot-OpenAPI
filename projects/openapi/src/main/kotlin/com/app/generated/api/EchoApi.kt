@@ -5,7 +5,7 @@
 */
 package com.app.generated.api
 
-import com.app.generated.model.Echo200Response
+import com.app.generated.model.EchoResponse
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
 import io.swagger.v3.oas.annotations.media.*
@@ -44,7 +44,7 @@ interface EchoApi {
         operationId = "echo",
         description = """""",
         responses = [
-            ApiResponse(responseCode = "200", description = "OK", content = [Content(schema = Schema(implementation = Echo200Response::class))])
+            ApiResponse(responseCode = "200", description = "OK", content = [Content(schema = Schema(implementation = EchoResponse::class))])
         ]
     )
     @RequestMapping(
@@ -52,7 +52,7 @@ interface EchoApi {
             value = ["/api/echo"],
             produces = ["application/json"]
     )
-    fun echo(@NotNull @Parameter(description = "Text to echo", required = true) @Valid @RequestParam(value = "text", required = true) text: kotlin.String): ResponseEntity<Echo200Response> {
+    fun echo(@NotNull @Parameter(description = "Text to echo", required = true) @Valid @RequestParam(value = "text", required = true) text: kotlin.String): ResponseEntity<EchoResponse> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

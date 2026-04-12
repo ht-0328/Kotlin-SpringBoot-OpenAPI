@@ -1,15 +1,15 @@
 package com.app.generated.impl
 
 import com.app.generated.api.PingApi
-import com.app.generated.model.Ping200Response
+import com.app.generated.model.PingResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class PingController : PingApi {
-    override fun ping(): ResponseEntity<Ping200Response> =
+    override fun ping(): ResponseEntity<PingResponse> =
         ResponseEntity.ok(
-            Ping200Response(
+            PingResponse(
                 message = "pong",
                 appVersion = "0.1.0",
             ),
