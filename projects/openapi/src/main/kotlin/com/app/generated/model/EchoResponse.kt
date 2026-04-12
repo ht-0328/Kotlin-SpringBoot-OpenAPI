@@ -14,8 +14,8 @@ import jakarta.validation.Valid
 import io.swagger.v3.oas.annotations.media.Schema
 
 /**
- *
- * @param echoedText
+ * 
+ * @param echoedText 
  */
 data class EchoResponse(
 
@@ -24,3 +24,4 @@ data class EchoResponse(
     ) {
 
 }
+

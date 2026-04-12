@@ -14,9 +14,9 @@ import jakarta.validation.Valid
 import io.swagger.v3.oas.annotations.media.Schema
 
 /**
- *
- * @param message
- * @param appVersion
+ * 
+ * @param message 
+ * @param appVersion 
  */
 data class PingResponse(
 
@@ -28,3 +28,4 @@ data class PingResponse(
     ) {
 
 }
+
