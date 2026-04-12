@@ -72,7 +72,7 @@ spotless {
 tasks.register("generateOpenApiServer", org.openapitools.generator.gradle.plugin.tasks.GenerateTask::class) {
     generatorName.set("kotlin-spring")
     inputSpec.set("$projectDir/src/main/resources/openapi/openapi.yml")
-    outputDir.set("$buildDir/generated/openapi")
+    outputDir.set("${projectDir}/../../openapi")
     apiPackage.set("com.app.generated.api")
     modelPackage.set("com.app.generated.model")
     configOptions.set(mapOf(
@@ -86,7 +86,7 @@ tasks.register("generateOpenApiServer", org.openapitools.generator.gradle.plugin
 kotlin {
     sourceSets {
         main {
-            kotlin.srcDir("$buildDir/generated/openapi/src/main/kotlin")
+            kotlin.srcDir("${projectDir}/../../openapi/src/main/kotlin")
         }
     }
 }
