@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+  title: Search API Demo
+  version: 1.0.0
+  description: OpenAPIでは検索条件を個別のクエリパラメータとして定義し、Spring Boot側ではそれを1つのオブジェクトで受け取るデモ
+paths:
+  /users:
+    get:
+      summary: ユーザー検索
+      description: 検索条件を指定してユーザー一覧を取得します
+      operationId: searchUsers
+      parameters:
+        - name: keyword
+          in: query
+          description: 検索キーワード
+          required: false
+          schema:
+            type: string
+        - name: statuses
+          in: query
+          description: ステータスの配列
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+        - name: page
+          in: query
+          description: ページ番号
+          required: false
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: 1ページあたりの件数
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 成功時のレスポンス（デモ用のため任意のJSON）
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
