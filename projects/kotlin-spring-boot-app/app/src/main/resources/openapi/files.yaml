@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  title: Files API
+  version: 1.0.0
+paths:
+  /files/{fileId}/download:
+    get:
+      summary: Download file
+      operationId: downloadFile
+      tags:
+        - Files
+      parameters:
+        - name: fileId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: stream

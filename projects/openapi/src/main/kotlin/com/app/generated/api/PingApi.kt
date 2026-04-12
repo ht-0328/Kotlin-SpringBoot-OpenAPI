@@ -35,6 +35,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
+@RequestMapping("\${api.base-path:}")
 interface PingApi {
 
     @Operation(

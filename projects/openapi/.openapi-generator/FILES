@@ -9,6 +9,7 @@ settings.gradle
 src/main/kotlin/com/app/generated/api/ApiUtil.kt
 src/main/kotlin/com/app/generated/api/EchoApi.kt
 src/main/kotlin/com/app/generated/api/Exceptions.kt
+src/main/kotlin/com/app/generated/api/FilesApi.kt
 src/main/kotlin/com/app/generated/api/PingApi.kt
 src/main/kotlin/com/app/generated/model/EchoResponse.kt
 src/main/kotlin/com/app/generated/model/PingResponse.kt

@@ -7,6 +7,8 @@ paths:
     $ref: './ping.yaml#/paths/~1api~1ping'
   /api/echo:
     $ref: './echo.yaml#/paths/~1api~1echo'
+  /files/{fileId}/download:
+    $ref: './files.yaml#/paths/~1files~1{fileId}~1download'
 components:
   schemas:
     PingResponse:
