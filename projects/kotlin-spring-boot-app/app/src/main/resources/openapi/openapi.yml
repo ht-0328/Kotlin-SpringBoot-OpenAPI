@@ -3,6 +3,8 @@ info:
   title: Main API
   version: 1.0.0
 paths:
+  /api/download:
+    $ref: './file-download.yaml#/paths/~1api~1download'
   /api/ping:
     $ref: './ping.yaml#/paths/~1api~1ping'
   /api/echo:

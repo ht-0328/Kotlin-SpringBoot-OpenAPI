@@ -1,0 +1,17 @@
+openapi: 3.0.0
+info:
+  title: File Download API
+  version: 1.0.0
+paths:
+  /api/download:
+    get:
+      summary: Download a file
+      operationId: downloadFile
+      responses:
+        '200':
+          description: File downloaded successfully
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
