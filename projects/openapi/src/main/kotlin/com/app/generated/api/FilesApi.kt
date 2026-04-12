@@ -5,7 +5,6 @@
 */
 package com.app.generated.api
 
-import com.app.generated.model.Echo200Response
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
 import io.swagger.v3.oas.annotations.media.*
@@ -36,23 +35,23 @@ import kotlin.collections.Map
 @RestController
 @Validated
 @RequestMapping("\${api.base-path:}")
-interface EchoApi {
+interface FilesApi {
 
     @Operation(
-        tags = ["Echo",],
-        summary = "Echo the input text",
-        operationId = "echo",
+        tags = ["Files",],
+        summary = "Download file",
+        operationId = "downloadFile",
         description = """""",
         responses = [
-            ApiResponse(responseCode = "200", description = "OK", content = [Content(schema = Schema(implementation = Echo200Response::class))])
+            ApiResponse(responseCode = "200", description = "OK", content = [Content(schema = Schema(implementation = org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody::class))])
         ]
     )
     @RequestMapping(
             method = [RequestMethod.GET],
-            value = ["/api/echo"],
-            produces = ["application/json"]
+            value = ["/files/{fileId}/download"],
+            produces = ["application/octet-stream"]
     )
-    fun echo(@NotNull @Parameter(description = "Text to echo", required = true) @Valid @RequestParam(value = "text", required = true) text: kotlin.String): ResponseEntity<Echo200Response> {
+    fun downloadFile(@Parameter(description = "", required = true) @PathVariable("fileId") fileId: kotlin.String): ResponseEntity<org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

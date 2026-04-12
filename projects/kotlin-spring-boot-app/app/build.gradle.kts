@@ -79,7 +79,15 @@ tasks.register("generateOpenApiServer", org.openapitools.generator.gradle.plugin
         "interfaceOnly" to "true",
         "useSpringBoot3" to "true",
         "dateLibrary" to "java8",
-        "useTags" to "true"
+        "useTags" to "true",
+        "useResponseEntity" to "true",
+        "requestMappingMode" to "api_interface"
+    ))
+    typeMappings.set(mapOf(
+        "stream" to "StreamingResponseBody"
+    ))
+    importMappings.set(mapOf(
+        "StreamingResponseBody" to "org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody"
     ))
 }
 

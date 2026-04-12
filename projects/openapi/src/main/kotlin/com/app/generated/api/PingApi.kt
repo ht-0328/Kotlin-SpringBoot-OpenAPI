@@ -5,7 +5,7 @@
 */
 package com.app.generated.api
 
-import com.app.generated.model.PingResponse
+import com.app.generated.model.Ping200Response
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
 import io.swagger.v3.oas.annotations.media.*
@@ -35,6 +35,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
+@RequestMapping("\${api.base-path:}")
 interface PingApi {
 
     @Operation(
@@ -43,7 +44,7 @@ interface PingApi {
         operationId = "ping",
         description = """""",
         responses = [
-            ApiResponse(responseCode = "200", description = "OK", content = [Content(schema = Schema(implementation = PingResponse::class))])
+            ApiResponse(responseCode = "200", description = "OK", content = [Content(schema = Schema(implementation = Ping200Response::class))])
         ]
     )
     @RequestMapping(
@@ -51,7 +52,7 @@ interface PingApi {
             value = ["/api/ping"],
             produces = ["application/json"]
     )
-    fun ping(): ResponseEntity<PingResponse> {
+    fun ping(): ResponseEntity<Ping200Response> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }
