@@ -1,0 +1,104 @@
+name: Deploy to GCP (通常デプロイ)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      strategy_name:
+        description: 'Trading strategy name'
+        required: true
+        default: 'dummy-strategy'
+
+env:
+  PROJECT_ID: "crypto-autotrading-lab"
+  REGION: "asia-northeast1"
+  ARTIFACT_REGISTRY: "crypto-autotrading-lab"
+  GCS_BUCKET: "crypto-autotrading-lab"
+  APP_NAME: "crypto-autotrading-lab-app"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Verify GCP Resources Exist
+        run: |
+          echo "Verifying Artifact Registry..."
+          if ! gcloud artifacts repositories describe ${{ env.ARTIFACT_REGISTRY }} --location=${{ env.REGION }} > /dev/null 2>&1; then
+            echo "Error: Artifact Registry '${{ env.ARTIFACT_REGISTRY }}' が存在しません。bootstrap-gcp.yml を先に実行してください。"
+            exit 1
+          fi
+
+          echo "Verifying GCS Bucket..."
+          if ! gcloud storage ls gs://${{ env.GCS_BUCKET }} > /dev/null 2>&1; then
+            echo "Error: GCS Bucket 'gs://${{ env.GCS_BUCKET }}' が存在しません。bootstrap-gcp.yml を先に実行してください。"
+            exit 1
+          fi
+
+          echo "Verifying Cloud Build Service Account..."
+          BUILDER_SA="cloud-build-builder@${{ env.PROJECT_ID }}.iam.gserviceaccount.com"
+          if ! gcloud iam service-accounts describe $BUILDER_SA > /dev/null 2>&1; then
+            echo "Error: サービスアカウント '$BUILDER_SA' が存在しません。bootstrap-gcp.yml を先に実行してください。"
+            exit 1
+          fi
+
+          echo "Verifying Cloud Run Runner Service Account..."
+          RUNNER_SA="crypto-autotrading-lab-runner@${{ env.PROJECT_ID }}.iam.gserviceaccount.com"
+          if ! gcloud iam service-accounts describe $RUNNER_SA > /dev/null 2>&1; then
+            echo "Error: サービスアカウント '$RUNNER_SA' が存在しません。bootstrap-gcp.yml を先に実行してください。"
+            exit 1
+          fi
+
+      - name: Build and Push Docker image via Cloud Build
+        run: |
+          IMAGE_PATH="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}"
+          BUILDER_SA="projects/${{ env.PROJECT_ID }}/serviceAccounts/cloud-build-builder@${{ env.PROJECT_ID }}.iam.gserviceaccount.com"
+
+          cd projects/kotlin-spring-boot-app
+
+          echo "Submitting build to Cloud Build..."
+          gcloud builds submit \
+            --tag $IMAGE_PATH \
+            --service-account $BUILDER_SA \
+            --gcs-source-staging-dir gs://${{ env.GCS_BUCKET }}/source \
+            --gcs-log-dir gs://${{ env.GCS_BUCKET }}/logs \
+            .
+
+      - name: Deploy to Cloud Run Job
+        run: |
+          IMAGE_PATH="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.ARTIFACT_REGISTRY }}/${{ env.APP_NAME }}:${{ github.sha }}"
+          RUNNER_SA="crypto-autotrading-lab-runner@${{ env.PROJECT_ID }}.iam.gserviceaccount.com"
+
+          # Assuming input.strategy_name from workflow_dispatch or a default value
+          STRATEGY_NAME="${{ github.event.inputs.strategy_name || 'dummy-strategy' }}"
+
+          echo "Deploying to Cloud Run Job with strategy: $STRATEGY_NAME"
+
+          gcloud run jobs update ${{ env.APP_NAME }}-job \
+            --image $IMAGE_PATH \
+            --region ${{ env.REGION }} \
+            --service-account $RUNNER_SA \
+            --set-env-vars="APP_TRADING_STRATEGY_NAME=$STRATEGY_NAME" \
+            --execute-now || gcloud run jobs create ${{ env.APP_NAME }}-job \
+            --image $IMAGE_PATH \
+            --region ${{ env.REGION }} \
+            --service-account $RUNNER_SA \
+            --set-env-vars="APP_TRADING_STRATEGY_NAME=$STRATEGY_NAME" \
+            --execute-now

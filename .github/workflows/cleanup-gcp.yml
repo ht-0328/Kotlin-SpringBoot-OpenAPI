@@ -1,0 +1,49 @@
+name: GCP Cleanup (クリーンアップ)
+
+on:
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: "crypto-autotrading-lab"
+  REGION: "asia-northeast1"
+  ARTIFACT_REGISTRY: "crypto-autotrading-lab"
+  APP_NAME: "crypto-autotrading-lab-app"
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Delete Cloud Run Job
+        run: |
+          echo "Attempting to delete Cloud Run Job '${{ env.APP_NAME }}-job'..."
+          gcloud run jobs delete ${{ env.APP_NAME }}-job \
+            --region ${{ env.REGION }} \
+            --quiet || echo "Job not found or could not be deleted."
+
+      - name: Information about Service Accounts
+        run: |
+          echo "=========================================================================="
+          echo "注意: サービスアカウントの削除はこのワークフローでは自動化されていません。"
+          echo "不要なサービスアカウントを削除する場合は、Google Cloud Consoleまたは"
+          echo "gcloudコマンドから手動で慎重に行ってください。"
+          echo ""
+          echo "削除すると、関連するIAMバインディングが 'deleted:serviceAccount...' として"
+          echo "残る可能性があり、今後のインフラ管理に影響を与える場合があります。"
+          echo "=========================================================================="
